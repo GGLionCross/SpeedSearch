@@ -1,5 +1,8 @@
+$accent: #21CE99;
+$negative: #FF6961;
+
 .bg-accent {
-  background-color: #21CE99;
+  background-color: $accent;
 }
 
 .bg-gray {
@@ -11,11 +14,19 @@
 }
 
 .bg-negative {
-  background-color: #FF6961;
+  background-color: $negative;
+}
+
+.bg-white {
+  background-color: white;
 }
 
 .hl-accent:highlighted {
-  color: #21CE99;
+  color: $accent;
+}
+
+.text-accent {
+  color: $accent;
 }
 
 .text-black {
