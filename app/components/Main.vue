@@ -2,10 +2,10 @@
   <Page>
     <GridLayout rows="auto, auto, *">
       <TitleBar title="SpeedSearch">
-        <StackLayout orientation="horizontal">
-          <Button text="+" @tap="addNote" class="btn-action bg-gray text-white" />
-          <Button text="i" class="btn-action bg-gray text-white" />
-          <Button text="e" class="btn-action bg-gray text-white" />
+        <StackLayout v-if="!popupOpen" orientation="horizontal">
+          <Button text="+" @tap="addNote" class="btn-action text-accent" />
+          <Button text="i" class="btn-action text-accent" />
+          <Button text="e" @tap="openPopup('export')" class="btn-action text-accent" />
         </StackLayout>
       </TitleBar>
       <SearchBar
@@ -33,6 +33,11 @@
         :note="edit.note"
         @saveNote="saveNote"
         @close="closePopup" />
+      <ExportPopup
+        v-if="exp.open"
+        row="2"
+        :notes="notes"
+        @close="closePopup" />
     </GridLayout>
   </Page>
 </template>
@@ -41,9 +46,16 @@
 import TitleBar from "./TitleBar";
 import DeletePopup from "./DeletePopup";
 import EditPopup from "./EditPopup";
+import ExportPopup from "./ExportPopup";
 import Note from "./Note";
 export default {
-  components: { TitleBar, DeletePopup, EditPopup, Note },
+  components: {
+    TitleBar,
+    DeletePopup,
+    EditPopup,
+    ExportPopup,
+    Note
+  },
   data() {
     return {
       search: "",
@@ -118,6 +130,9 @@ export default {
           title: "",
           content: ""
         }
+      },
+      exp: {
+        open: false
       }
     }
   },
@@ -127,7 +142,7 @@ export default {
       return this.notes.filter(note => note.title.match(regex));
     },
     popupOpen() {
-      return this.del.open || this.edit.open;
+      return this.del.open || this.edit.open || this.exp.open;
     }
   },
   methods: {
@@ -146,7 +161,7 @@ export default {
         }
       }
     },
-    openPopup(type, note) {
+    openPopup(type, note = null) {
       switch(type) {
         case "delete":
           this.del.note = note;
@@ -156,11 +171,15 @@ export default {
           this.edit.note = note;
           this.edit.open = true;
           break;
+        case "export":
+          this.exp.open = true;
+          break;
       }
     },
     closePopup() {
       this.del.open = false;
       this.edit.open = false;
+      this.exp.open = false;
     },
     saveNote(oldNote, newNote) {
       for (let i = 0; i < this.notes.length; i++) {
@@ -181,7 +200,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .title {
   font-size: 20sp;
   font-weight: 900;
@@ -191,7 +210,7 @@ export default {
   width: 50dp;
   margin: 0;
   margin-right: 8dp;
-  font-size: 16sp;
+  font-size: 20sp;
   font-weight: 900;
 }
 </style>
