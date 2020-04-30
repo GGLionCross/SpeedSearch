@@ -3,9 +3,18 @@
     <GridLayout rows="auto, auto, *">
       <TitleBar title="SpeedSearch">
         <StackLayout v-if="!popupOpen" orientation="horizontal">
-          <Button text="+" @tap="addNote" class="btn-action text-accent" />
-          <Button text="i" class="btn-action text-accent" />
-          <Button text="e" @tap="openPopup('export')" class="btn-action text-accent" />
+          <Button
+            text="+"
+            @tap="addNote('***PLACEHOLDER***', 'New Note')"
+            class="btn-action text-accent" />
+          <Button
+            text="i"
+            @tap="openPopup('import')"
+            class="btn-action text-accent" />
+          <Button
+            text="e"
+            @tap="openPopup('export')"
+            class="btn-action text-accent" />
         </StackLayout>
       </TitleBar>
       <SearchBar
@@ -14,9 +23,9 @@
         v-model="search"
         hint="Search"
         textFieldHintColor="white"
-        class="bg-gray"
+        class="bg-gray text-white"
       ></SearchBar>
-      <ListView row="2" class="bg-gray-dark" for="note in filteredNotes" height="100%">
+      <ListView row="2" class="bg-gray-dark" for="note in filteredNotes">
         <v-template>
           <Note @openDelete="openPopup" @openEdit="openPopup" :note="note" />
         </v-template>
@@ -38,6 +47,12 @@
         row="2"
         :notes="notes"
         @close="closePopup" />
+      <ImportPopup
+        v-if="imp.open"
+        row="2"
+        :notes="notes"
+        @importNotes="importNotes"
+        @close="closePopup" />
     </GridLayout>
   </Page>
 </template>
@@ -47,6 +62,7 @@ import TitleBar from "./TitleBar";
 import DeletePopup from "./DeletePopup";
 import EditPopup from "./EditPopup";
 import ExportPopup from "./ExportPopup";
+import ImportPopup from "./ImportPopup";
 import Note from "./Note";
 export default {
   components: {
@@ -54,6 +70,7 @@ export default {
     DeletePopup,
     EditPopup,
     ExportPopup,
+    ImportPopup,
     Note
   },
   data() {
@@ -63,10 +80,6 @@ export default {
         {
           title: "YouTube",
           content: "yt69"
-        },
-        {
-          title: "***New Note***",
-          content: "New Note"
         },
         {
           title: "Github",
@@ -133,6 +146,9 @@ export default {
       },
       exp: {
         open: false
+      },
+      imp: {
+        open: false
       }
     }
   },
@@ -142,14 +158,14 @@ export default {
       return this.notes.filter(note => note.title.match(regex));
     },
     popupOpen() {
-      return this.del.open || this.edit.open || this.exp.open;
+      return this.del.open || this.edit.open || this.exp.open || this.imp.open;
     }
   },
   methods: {
-    addNote() {
+    addNote(title, content) {
       this.notes.push({
-        title: "***New Note***",
-        content: "***New Note Content***"
+        title: title,
+        content: content
       });
       this.sortNotes();
     },
@@ -159,6 +175,11 @@ export default {
           this.notes.splice(i, 1);
           break;
         }
+      }
+    },
+    importNotes(notes) {
+      for (let i = 0; i < notes.length; i++) {
+        this.addNote(notes[i].title, notes[i].content);
       }
     },
     openPopup(type, note = null) {
@@ -174,12 +195,16 @@ export default {
         case "export":
           this.exp.open = true;
           break;
+        case "import":
+          this.imp.open = true;
+          break;
       }
     },
     closePopup() {
       this.del.open = false;
       this.edit.open = false;
       this.exp.open = false;
+      this.imp.open = false;
     },
     saveNote(oldNote, newNote) {
       for (let i = 0; i < this.notes.length; i++) {
@@ -210,7 +235,7 @@ export default {
   width: 50dp;
   margin: 0;
   margin-right: 8dp;
-  font-size: 20sp;
+  font-size: 16sp;
   font-weight: 900;
 }
 </style>
