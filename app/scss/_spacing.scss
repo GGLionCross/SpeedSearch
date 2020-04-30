@@ -1,7 +1,33 @@
+$small: 8dp;
+$medium: 16dp;
+$large: 32dp;
+
 .space-ma-none {
   margin: 0;
 }
-
+.space-ma-md {
+  margin: $medium;
+}
+.space-mx-md {
+  margin-left: $medium;
+  margin-right: $medium;
+}
+.space-mx-lg {
+  margin-left: $large;
+  margin-right: $large;
+}
+.space-mb-none {
+  margin-bottom: 0;
+}
+.space-mb-sm {
+  margin-bottom: $small;
+}
 .space-pa-none {
   padding: 0;
+}
+.space-pa-md {
+  padding: $medium;
+}
+.space-pb-none {
+  padding-bottom: 0;
 }
