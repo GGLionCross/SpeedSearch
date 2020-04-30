@@ -27,7 +27,7 @@ export default {
         code += this.notes[i].title;
         code += "\n===CONTENT===\n";
         code += this.notes[i].content;
-        code += "\n";
+        if (i != this.notes.length - 1) code += "\n";
       }
       return code;
     }
