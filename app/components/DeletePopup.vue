@@ -1,14 +1,26 @@
 <template>
-  <GridLayout rows="auto, auto, auto, *, auto" height="100%" class="bg-gray-dark space-pa-none">
-    <TitleBar row="0" title="Delete" class="bg-gray" />
-    <Label row="1" text="Are you would like to delete?" class="text-white" />
-    <TextField row="2" :text="note.title" :editable="false" class="text-white" />
-    <TextView row="3" :text="note.content" :editable="false" class="text-white" />
-    <FlexboxLayout row="4" justifyContent="center">
+  <StackLayout class="bg-gray-dark space-pa-none">
+    <TitleBar title="Delete" class="bg-gray" />
+    <Label
+      text="Are you sure you would like to delete?"
+      class="text-white font-size-14sp font-weight-solid space-ma-md space-mb-none" />
+    <StackLayout class="space-mx-md">
+      <Label text="Title" class="text-accent font-weight-solid space-pb-none" />
+      <TextView
+        :editable="false"
+        :text="note.title"
+        class="text-white space-mx-md space-pa-none size-min-h-none" />
+      <Label text="Content" class="text-accent font-weight-solid space-pb-none" />
+      <TextView
+        :editable="false"
+        :text="note.content"
+        class="text-white space-mx-md space-pa-none size-min-h-none" />
+    </StackLayout>
+    <FlexboxLayout justifyContent="center">
       <Button @tap="deleteNote" class="bg-negative text-white" text="Delete" />
       <Button @tap="cancel" text="Cancel" class="bg-gray text-white" />
     </FlexboxLayout>
-  </GridLayout>
+  </StackLayout>
 </template>
 
 <script>
