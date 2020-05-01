@@ -19,6 +19,7 @@
       </TitleBar>
       <SearchBar
         v-if="!popupOpen"
+        ref="searchBar"
         row="1"
         v-model="search"
         hint="Search"
@@ -64,6 +65,7 @@ import EditPopup from "./EditPopup";
 import ExportPopup from "./ExportPopup";
 import ImportPopup from "./ImportPopup";
 import Note from "./Note";
+import * as utils from "utils/utils"
 export default {
   components: {
     TitleBar,
@@ -193,6 +195,7 @@ export default {
           this.edit.open = true;
           break;
         case "export":
+          this.$refs.searchBar.nativeView.dismissSoftInput();
           this.exp.open = true;
           break;
         case "import":
