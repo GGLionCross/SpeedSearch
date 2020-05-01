@@ -34,8 +34,9 @@ export default {
   },
   methods: {
     copy() {
-      var clipboard = require("nativescript-clipboard");
+      let clipboard = require("nativescript-clipboard");
       clipboard.setText(this.expCode);
+      this.close();
     },
     close() {
       this.$emit("close");
