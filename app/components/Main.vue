@@ -78,60 +78,7 @@ export default {
   data() {
     return {
       search: "",
-      notes: [
-        {
-          title: "YouTube",
-          content: "yt69"
-        },
-        {
-          title: "Github",
-          content: "git69"
-        },
-        {
-          title: "Battle.net",
-          content: "bnet69"
-        },
-        {
-          title: "Facebook",
-          content: "fb69"
-        },
-        {
-          title: "Noom",
-          content: "noom69"
-        },
-        {
-          title: "Myspace",
-          content: "my 69"
-        },
-        {
-          title: "Crunchyroll",
-          content: "croll69"
-        },
-        {
-          title: "Primerica",
-          content: "pri69"
-        },
-        {
-          title: "Gmail",
-          content: "gma69"
-        },
-        {
-          title: "League of Legends",
-          content: "lol69"
-        },
-        {
-          title: "Steam",
-          content: "steam69"
-        },
-        {
-          title: "Netflix",
-          content: "flix69"
-        },
-        {
-          title: "Plex",
-          content: "plex69"
-        }
-      ],
+      notes: [],
       del: {
         open: false,
         note: {
@@ -175,6 +122,9 @@ export default {
       for (let i = 0; i < this.notes.length; i++) {
         if (this.notes[i] === note) {
           this.notes.splice(i, 1);
+          if (this.notes.length === 0) {
+            this.addNote('***PLACEHOLDER***', 'New Note');
+          }
           break;
         }
       }
@@ -223,6 +173,9 @@ export default {
     }
   },
   created() {
+    if (this.notes.length === 0) {
+      this.addNote('***PLACEHOLDER***', 'New Note');
+    }
     this.sortNotes();
   }
 };
