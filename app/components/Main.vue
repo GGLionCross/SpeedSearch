@@ -23,7 +23,7 @@
         row="1"
         v-model="search"
         hint="Search"
-        textFieldHintColor="white"
+        textFieldHintColor="#21CE99"
         class="bg-gray text-white"
       ></SearchBar>
       <ListView row="2" class="bg-gray-dark" for="note in filteredNotes">
